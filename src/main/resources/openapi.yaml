@@ -1,0 +1,98 @@
+openapi: 3.0.1
+info:
+  title: Transaction API
+  version: 1.0.0
+paths:
+  /transactions:
+    post:
+      summary: Crea una nueva transacción
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionDto'
+      responses:
+        '201':
+          description: Transacción creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDto'
+    get:
+      summary: Obtiene todas las transacciones
+      responses:
+        '200':
+          description: Lista de transacciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionDto'
+  /transactions/{id}:
+    get:
+      summary: Obtiene una transacción por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Transacción encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDto'
+        '404':
+          description: Transacción no encontrada
+    put:
+      summary: Actualiza una transacción por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionDto'
+      responses:
+        '200':
+          description: Transacción actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDto'
+        '404':
+          description: Transacción no encontrada
+    delete:
+      summary: Elimina una transacción por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transacción eliminada
+        '404':
+          description: Transacción no encontrada
+components:
+  schemas:
+    TransactionDto:
+      type: object
+      properties:
+        operationNumber:
+          type: string
+        sourceChannel:
+          type: string
+        amount:
+          type: number
+          format: double
